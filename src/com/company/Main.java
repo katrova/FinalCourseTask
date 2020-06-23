@@ -96,7 +96,31 @@ public class Main {
             });
         //_________________________________________________________________________________
 
-        }
+        //1.6  Find all the proper names
+            Map<String, Integer> listOfProperNames  = new LinkedHashMap<>();
+            distinct.entrySet().stream().forEach(word->{
+                String example = word.getKey();
+                String exampleLowCase = example.toLowerCase();
+                if(example.length()>0 && example.charAt(0) != exampleLowCase.charAt(0)){
+                    if(!distinct.containsKey(exampleLowCase)){
+                        listOfProperNames.put(word.getKey(),word.getValue());
+                    }
+                }
+            });
+            //create sorted list of proper names
+            Map<String , Integer> sortedListOfProperNames = listOfProperNames.entrySet()
+                    .stream()
+                    .sorted(Map.Entry.<String, Integer>comparingByKey())
+                    .collect(Collectors.toMap(
+                            Map.Entry::getKey,
+                            Map.Entry::getValue,
+                            (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 
+            //print sorted list of all Proper Names words
+            sortedListOfProperNames.forEach((key,value)->{
+                System.out.println(key + " - " + value);
+            });
+
+        }
 
     }
